@@ -127,6 +127,36 @@ app.delete('/movies/delete/:id', (req, res) => {
         res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
     }
 });
+// Route for updating movie title
+app.put('/movies/update/:id', (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const { title } = req.query;
+
+    const movieIndex = movies.findIndex(m => m.id === movieId);
+
+    if (movieIndex !== -1) {
+        movies[movieIndex].title = title;
+        res.json({ status: 200, data: movies });
+    } else {
+        res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
+    }
+});
+
+// Route for updating movie title and rating
+app.put('/movies/update/:id', (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const { title, rating } = req.query;
+
+    const movieIndex = movies.findIndex(m => m.id === movieId);
+
+    if (movieIndex !== -1) {
+        if (title) movies[movieIndex].title = title;
+        if (rating) movies[movieIndex].rating = parseFloat(rating);
+        res.json({ status: 200, data: movies });
+    } else {
+        res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
+    }
+});
 
 // Start the server
 app.listen(PORT, () => {
