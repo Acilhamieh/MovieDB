@@ -76,6 +76,17 @@ app.get('/movies/read/by-title', (req, res) => {
     const orderedMovies = movies.sort((a, b) => a.title.localeCompare(b.title));  // Sort by title (ascending)
     res.json({ status: 200, data: orderedMovies });
 });
+//route for /movies/read/id/:id
+app.get('/movies/read/id/:id', (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const movie = movies.find(m => m.id === movieId);
+
+    if (movie) {
+        res.json({ status: 200, data: movie });
+    } else {
+        res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
+    }
+});
 
 // Start the server
 app.listen(PORT, () => {
