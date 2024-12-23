@@ -87,6 +87,32 @@ app.get('/movies/read/id/:id', (req, res) => {
         res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
     }
 });
+// Route for /movies/add
+app.get('/movies/add', (req, res) => {
+    const { title, year, rating } = req.query;
+
+    // Validation
+    if (!title || !year || isNaN(year) || year.length !== 4) {
+        return res.status(403).json({ status: 403, error: true, message: 'you cannot create a movie without providing a title and a year' });
+    }
+
+    // Default rating if not provided
+    const movieRating = rating ? parseFloat(rating) : 4;
+
+    // Create new movie
+    const newMovie = {
+        id: movies.length + 1,
+        title: title,
+        year: parseInt(year),
+        rating: movieRating
+    };
+
+    // Add the new movie to the movies array
+    movies.push(newMovie);
+
+    // Respond with the updated list of movies
+    res.json({ status: 200, data: movies });
+});
 
 // Start the server
 app.listen(PORT, () => {
