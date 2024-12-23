@@ -113,6 +113,20 @@ app.get('/movies/add', (req, res) => {
     // Respond with the updated list of movies
     res.json({ status: 200, data: movies });
 });
+// Route for /movies/delete/<ID>
+app.delete('/movies/delete/:id', (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const movieIndex = movies.findIndex(m => m.id === movieId);
+
+    if (movieIndex !== -1) {
+        // Remove the movie from the array
+        movies.splice(movieIndex, 1);
+        res.json({ status: 200, data: movies });
+    } else {
+        // Movie not found
+        res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
+    }
+});
 
 // Start the server
 app.listen(PORT, () => {
