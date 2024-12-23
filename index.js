@@ -61,6 +61,22 @@ const movies = [
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
+// Route for /movies/read/by-date
+app.get('/movies/read/by-date', (req, res) => {
+    const orderedMovies = movies.sort((a, b) => a.year - b.year);  // Sort by year (ascending)
+    res.json({ status: 200, data: orderedMovies });
+});
+//rooute for movies/read/by-rating
+app.get('/movies/read/by-rating', (req, res) => {
+    const orderedMovies = movies.sort((a, b) => b.rating - a.rating);  // Sort by rating (descending)
+    res.json({ status: 200, data: orderedMovies });
+});
+// Route for /movies/read/by-title
+app.get('/movies/read/by-title', (req, res) => {
+    const orderedMovies = movies.sort((a, b) => a.title.localeCompare(b.title));  // Sort by title (ascending)
+    res.json({ status: 200, data: orderedMovies });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
