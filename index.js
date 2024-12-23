@@ -87,6 +87,7 @@ app.get('/movies/read/id/:id', (req, res) => {
         res.status(404).json({ status: 404, error: true, message: `the movie ${movieId} does not exist` });
     }
 });
+//using https verbs 
 // Route for /movies/add
 app.get('/movies/add', (req, res) => {
     const { title, year, rating } = req.query;
